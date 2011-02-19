@@ -1,28 +1,60 @@
 require 'rubygems'
 
 SPEC = Gem::Specification.new do |spec|
-  spec.name		= ""
+  spec.name		    = ""
   spec.version		= "0.0.1"
-  spec.author		= "Judson Lester" #single author is assumed
-  spec.email		= "judson@lrdesign"
+  spec.authors		= ["Judson Lester"]
+  spec.email		= "judson@lrdesign.com"
   spec.summary		= ""
-  spec.description	= <<-EOD
-  EOD
+  spec.description	= <<-EndDescription
+  EndDescription
 
   spec.rubyforge_project= spec.name.downcase
-  spec.homepage        = "http://#{spec.rubyforge_project}.rubyforge.org/"
-
+  spec.required_rubygems_version = Gem::Requirement.new(">= 0") if spec.respond_to? :required_rubygems_version=
 
   spec.files		= %w[
+    Gemfile
+    Gemfile.lock
+    LICENSE.txt
+    README.rdoc
+    Rakefile
+    VERSION
     # For each of these lines, d$ then @"
-    # !!find lib -type f
-    # !!find app -type f
     # !!find doc -type f
     # !!find spec -type f
+    # !!find lib -type f
+    # !!find app -type f
+    # !!find public -type f
+    # !!find tasks -type f
     # !!find generators -type f
   ]
 
   spec.test_file        = "spec_help/gem_test_suite.rb"
+  spec.homepage = "http://lrdesign.com/tools"
+  spec.licenses = ["MIT"]
+  spec.require_paths = ["lib/"]
+  spec.rubygems_version = "1.3.5"
+
+  if spec.respond_to? :specification_version then
+    current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
+    spec.specification_version = 3
+
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
+      spec.add_development_dependency("rspec", [">= 1.5"])
+      spec.add_development_dependency("bundler", ["~> 1.0.0"])
+      spec.add_development_dependency("rcov", [">= 0"])
+    else
+      spec.add_dependency("rspec", [">= 1.5"])
+      spec.add_dependency("bundler", ["~> 1.0.0"])
+      spec.add_dependency("rcov", [">= 0"])
+    end
+  else
+    spec.add_dependency("rspec", [">= 1.5"])
+    spec.add_dependency("bundler", ["~> 1.0.0"])
+    spec.add_dependency("rcov", [">= 0"])
+  end
+
+  spec.rubyforge_project= spec.name.downcase
   
   spec.require_path	= "lib" 
 
