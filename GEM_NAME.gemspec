@@ -1,10 +1,12 @@
-require 'rubygems'
-
-SPEC = Gem::Specification.new do |spec|
-  spec.name		    = ""
+Gem::Specification.new do |spec|
+  spec.name		= ""
   spec.version		= "0.0.1"
-  spec.authors		= ["Judson Lester"]
-  spec.email		= "judson@lrdesign.com"
+  author_list = { 
+    "Judson Lester" => "judson@lrdesign.com",
+    "Evan Dorn"     => "evan@lrdesign.com"
+  }
+  spec.authors		= author_list.keys
+  spec.email		= spec.authors.map {|name| author_list[name]}
   spec.summary		= ""
   spec.description	= <<-EndDescription
   EndDescription
@@ -19,44 +21,37 @@ SPEC = Gem::Specification.new do |spec|
     README.rdoc
     Rakefile
     VERSION
-    # For each of these lines, d$ then @"
-    # !!find doc -type f
-    # !!find spec -type f
-    # !!find lib -type f
-    # !!find app -type f
-    # !!find public -type f
-    # !!find tasks -type f
-    # !!find generators -type f
+    # Do this: d$@"
+    # !!find lib app public tasks generators doc spec -not -regex '.*\.sw.' -type f
   ]
 
   spec.test_file        = "spec_help/gem_test_suite.rb"
   spec.homepage = "http://lrdesign.com/tools"
   spec.licenses = ["MIT"]
-  spec.require_paths = ["lib/"]
+  spec.require_paths = %w[lib/]
   spec.rubygems_version = "1.3.5"
 
+  dev_deps = [
+    ["rake-gemcutter", ">= 0.1.0"],
+    ["hanna", "~> 0.1.0"],
+    ["mailfactory", "~> 1.4.0"],
+    ["rspec", [">= 2.0"]],
+    ["bundler", ["~> 1.0.0"]],
+    ["rcov", [">= 0"]]
+  ]
   if spec.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     spec.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      spec.add_development_dependency("rspec", [">= 1.5"])
-      spec.add_development_dependency("bundler", ["~> 1.0.0"])
-      spec.add_development_dependency("rcov", [">= 0"])
-    else
-      spec.add_dependency("rspec", [">= 1.5"])
-      spec.add_dependency("bundler", ["~> 1.0.0"])
-      spec.add_dependency("rcov", [">= 0"])
+      dev_deps.each do |gem, versions|
+        spec.add_development_dependency(gem, versions)
     end
   else
-    spec.add_dependency("rspec", [">= 1.5"])
-    spec.add_dependency("bundler", ["~> 1.0.0"])
-    spec.add_dependency("rcov", [">= 0"])
+      dev_deps.each do |gem, versions|
+        spec.add_dependency(gem, versions)
   end
 
-  spec.rubyforge_project= spec.name.downcase
-  
-  spec.require_path	= "lib" 
 
   spec.has_rdoc		= true
   spec.extra_rdoc_files = Dir.glob("doc/**/*")
@@ -68,13 +63,3 @@ SPEC = Gem::Specification.new do |spec|
 
   spec.post_install_message = "Another tidy package brought to you by Logical Reality Design"
 end
-
-RUBYFORGE = {
-  :group_id => SPEC.rubyforge_project,
-  :package_id => SPEC.name.downcase,
-  :release_name => SPEC.full_name,
-  :home_page => SPEC.homepage,
-  :project_page => "http://rubyforge.org/project/#{SPEC.rubyforge_project}/"
-}
-
-SPEC
